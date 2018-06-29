@@ -230,6 +230,29 @@ int get_Edad(void * record)
     return tmp_1->Edad;
 }
 
+int get_Legajo(void * record)
+{
+    EAlumno *tmp_1;
+    tmp_1=(EAlumno * ) record;
+    return tmp_1->Legajo;
+}
+
+char *get_Nombre(void * record)
+{
+    EAlumno *tmp_1;
+    tmp_1=(EAlumno * ) record;
+
+    return tmp_1->Nombre;
+}
+
+char get_Sexo(void * record)
+{
+    EAlumno *tmp_1;
+    tmp_1=(EAlumno * ) record;
+
+    return tmp_1->Sexo;
+}
+
 ArrayList* al_filter(ArrayList* listIn , int (*functionFilter)(void*))
 {
     ArrayList *ListaTemp=NULL;
