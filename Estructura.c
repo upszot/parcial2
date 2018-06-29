@@ -1,10 +1,12 @@
+#include "ArrayList.h"
 #include "Estructura.h"
+#include "genericas.h"
 
 #define MASACARA_ARCHIVO "%[^,],%[^,],%[^,],%[^\n]\n"
 #define CANTIDAD_CAMPOS_ARCHIVO 4
 #define TIENE_ENCABEZADO_ARCHIVO 1
 
-int parserEmployee(FILE* pFile, ArrayList* this)
+int parserEstructura(FILE* pFile, ArrayList* this)
 {
     int retorno = -1;
     int cantidadFilasLeidas = 0;
@@ -39,13 +41,25 @@ int parserEmployee(FILE* pFile, ArrayList* this)
                 if(cantidadDatosLeidos == CANTIDAD_CAMPOS_ARCHIVO)
                 {
 
-                    guardoDato = Alumno_setName(record, Nombre);
+                    guardoDato = Alumno_setName(record,(char*) Nombre);
                     if(guardoDato !=0)
                     {
                         break;
                     }
 
                     guardoDato = Alumno_setEdad(record, (int)Edad );
+                    if(guardoDato !=0)
+                    {
+                        break;
+                    }
+
+                    guardoDato = Alumno_setLegajo(record, (int)Legajo );
+                    if(guardoDato !=0)
+                    {
+                        break;
+                    }
+
+                    guardoDato = Alumno_setSexo(record, (char)Sexo );
                     if(guardoDato !=0)
                     {
                         break;
@@ -79,6 +93,18 @@ int parserEmployee(FILE* pFile, ArrayList* this)
 int Alumno_setEdad(EAlumno* this, int dato)
 {
     this->Edad = dato;
+    return 0;
+}
+
+int Alumno_setLegajo(EAlumno* this, int dato)
+{
+    this->Legajo = dato;
+    return 0;
+}
+
+int Alumno_setSexo(EAlumno* this, char dato)
+{
+    this->Sexo = dato;
     return 0;
 }
 
@@ -201,7 +227,7 @@ int cargarDesdeArchivo(const char* nombreArchivo, ArrayList* this)
     if(archivo != NULL)
     {
         retorno = -2;
-        if(parserEmployee(archivo, this)==0)
+        if(parserEstructura(archivo, this)==0)
         {
             retorno = -3;
             if(fclose(archivo)==0)
@@ -215,86 +241,3 @@ int cargarDesdeArchivo(const char* nombreArchivo, ArrayList* this)
 }
 
 
-
-
-
-int parserEmployee(FILE* pFile, ArrayList* this)
-{
-    int retorno = -1;
-    int cantidadFilasLeidas = 0;
-    int cantidadDatosLeidos;
-    EAlumno* record;
-
-
-    char charId[10];
-    char charIsEmpty[10];
-    int agregoEmpleado;
-    char cabecera[80];
-    char nombre[TAM_NOMBRE];
-    char apellido[TAM_APELLIDO];
-    int guardoDato;
-
-    if(pFile != NULL)
-    {
-        retorno = -2;
-        if(TIENE_ENCABEZADO_ARCHIVO_EMPLEADOS == 1)
-        {
-            //descarto la lectura del encabezado
-            fgets(cabecera, 80, pFile);
-        }
-
-        while(!feof(pFile))
-        {
-            retorno = 0;
-            record = nuevo();
-            if(record != NULL)
-            {
-                cantidadDatosLeidos = fscanf(pFile, MASACARA_ARCHIVO, charId, nombre, apellido, charIsEmpty);
-                if(cantidadDatosLeidos == CANTIDAD_CAMPOS_ARCHIVO_EMPLEADOS)
-                {
-                    guardoDato = employee_setId(unEmpleado, charIdToId(charId));
-                    if(guardoDato < 0)
-                    {
-                        break;
-                    }
-
-                    guardoDato = employee_setName(unEmpleado, nombre);
-                    if(guardoDato < 0)
-                    {
-                        break;
-                    }
-
-                    guardoDato = employee_setLastName(unEmpleado, apellido);
-                    if(guardoDato < 0)
-                    {
-                        break;
-                    }
-
-                    guardoDato = employee_setIsEmpty(unEmpleado, charIsEmptyToIsEmpty(charIsEmpty));
-                    if(guardoDato < 0)
-                    {
-                        break;
-                    }
-
-                    agregoEmpleado = al_add(this, unEmpleado);
-                    if(agregoEmpleado < 0) //Hubo error
-                    {
-                        break;
-                    }
-
-                    cantidadFilasLeidas++;
-                }
-                else //Fin de archivo u otro error
-                {
-                    break;
-                }
-            }
-            else //Sin memoria
-            {
-                break;
-            }
-        }
-    }
-
-    return retorno;
-}

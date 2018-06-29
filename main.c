@@ -3,7 +3,7 @@
 #include <string.h>
 
 #include "ArrayList.h"
-//#include "Estructura.h"
+#include "Estructura.h"
 #include "genericas.h"
 
 
@@ -27,6 +27,8 @@ int main()
     ArrayList *ListAlumno;
     ListAlumno= al_newArrayList();
 
+    ArrayList *ListTemp;
+    ListTemp= al_newArrayList();
 
     char seguir='s';
     int opcion=0;
@@ -55,6 +57,12 @@ int main()
                     Error = cargarDesdeArchivo(NOMBRE_ARCHIVO, ListAlumno);
                     break;
                 case 2:
+//                    ListAlumno->sort(compara_elementos_Estructura,1)
+                    ListTemp= clonaOrdenado(ListAlumno,compara_elementos_Estructura,1);
+                    if(ListTemp!=NULL)
+                    {
+                        Error=al_MuestraElemento_desde_hasta(ListTemp,"Alumnos Ordenados por Edad",Muestra1Record ,0,ListTemp->len(ListTemp),PAGINADO);
+                    }
 
                     break;
                 case 3://PROXIMO CLIENTE

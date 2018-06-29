@@ -19,3 +19,11 @@ int compara_elementos_Estructura(void* pElementA,void* pElementB);
 
 int al_MuestraElemento_desde_hasta(ArrayList *this,char *Titulo,int (*pFunc)(void*) ,int desde,int hasta,int paginado);
 ArrayList* clonaOrdenado(ArrayList *this,int (*pFunc)(void* ,void*),int orden);
+
+int cargarDesdeArchivo(const char* nombreArchivo, ArrayList* this);
+
+int parserEstructura(FILE* pFile, ArrayList* this);
+int Alumno_setEdad(EAlumno* this, int dato);
+int Alumno_setLegajo(EAlumno* this, int dato);
+int Alumno_setSexo(EAlumno* this, char dato);
+int Alumno_setName(EAlumno* this, const char* name);
