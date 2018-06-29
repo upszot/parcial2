@@ -45,8 +45,8 @@ int main()
         {
             menu(   "\n 1. Parse del archivo CVS"
                     "\n 2. Lista Ordenados por Edad"
-                    //"\n 3. PROXIMO CLIENTE"
-                    //"\n 4. LISTAR"
+                    "\n 3. Lista"
+                    "\n 4. LISTAR filtrado"
                     //"\n 5. INFORMAR:"
                 );
 
@@ -66,10 +66,11 @@ int main()
 
                     break;
                 case 3://PROXIMO CLIENTE
-
+                    Error=al_MuestraElemento_desde_hasta(ListAlumno,"Alumnos ",Muestra1Record ,0,ListAlumno->len(ListAlumno),PAGINADO);
                     break;
                 case 4:
-
+                        ListTemp= al_filter(ListAlumno ,funcionQueFiltra);
+                        Error=al_MuestraElemento_desde_hasta(ListTemp,"Alumnos Filtrado por Edad",Muestra1Record ,0,ListTemp->len(ListTemp),PAGINADO);
                     break;
                 case 5:
 

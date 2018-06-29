@@ -1,10 +1,14 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include "ArrayList.h"
 #include "Estructura.h"
 #include "genericas.h"
 
-#define MASACARA_ARCHIVO "%[^,],%[^,],%[^,],%[^\n]\n"
-#define CANTIDAD_CAMPOS_ARCHIVO 4
-#define TIENE_ENCABEZADO_ARCHIVO 1
+//#define MASACARA_ARCHIVO "%[^,],%[^,],%[^,],%[^\n]\n"
+
+
+
 
 int parserEstructura(FILE* pFile, ArrayList* this)
 {
@@ -18,9 +22,10 @@ int parserEstructura(FILE* pFile, ArrayList* this)
     EAlumno* record;
 
     char Nombre[30];
-    int Edad;
-    int Legajo;
-    char Sexo;
+    char Edad[3];
+    char Legajo[5];
+    char Sexo[1];
+
 
     if(pFile != NULL)
     {
@@ -37,7 +42,7 @@ int parserEstructura(FILE* pFile, ArrayList* this)
             record = nuevo();
             if(record != NULL)
             {
-                cantidadDatosLeidos = fscanf(pFile, MASACARA_ARCHIVO, Nombre, Edad, Legajo, Sexo);
+                cantidadDatosLeidos = fscanf(pFile,MASACARA_ARCHIVO,Nombre,Edad,Legajo,Sexo);
                 if(cantidadDatosLeidos == CANTIDAD_CAMPOS_ARCHIVO)
                 {
 
@@ -47,19 +52,19 @@ int parserEstructura(FILE* pFile, ArrayList* this)
                         break;
                     }
 
-                    guardoDato = Alumno_setEdad(record, (int)Edad );
+                    guardoDato = Alumno_setEdad(record, charToint(Edad) );
                     if(guardoDato !=0)
                     {
                         break;
                     }
 
-                    guardoDato = Alumno_setLegajo(record, (int)Legajo );
+                    guardoDato = Alumno_setLegajo(record,charToint(Legajo) );
                     if(guardoDato !=0)
                     {
                         break;
                     }
 
-                    guardoDato = Alumno_setSexo(record, (char)Sexo );
+                    guardoDato = Alumno_setSexo(record,(char) Sexo );
                     if(guardoDato !=0)
                     {
                         break;
@@ -89,6 +94,12 @@ int parserEstructura(FILE* pFile, ArrayList* this)
     return retorno;
 }
 
+int charToint(char* charInt)
+{
+    int nro;
+    nro = atoi(charInt);
+    return nro;
+}
 
 int Alumno_setEdad(EAlumno* this, int dato)
 {
@@ -114,6 +125,8 @@ int Alumno_setName(EAlumno* this, const char* name)
     return 0;
 }
 
+
+
 EAlumno* nuevo(void)
 {
     EAlumno* returnAux;
@@ -127,9 +140,10 @@ int Muestra1Record(EAlumno * record)
     if(record !=NULL)
     {
         retorno=0;
-        printf("Nombre: %s \n",record->Nombre);
+        printf("\n Nombre: %s ",record->Nombre);
         printf("Edad: %d ",record->Edad);
-
+        printf(" Legajo: %d ",record->Legajo);
+        printf(" Sexo: %c \n",record->Sexo);
     }
     return retorno;
 }
@@ -194,6 +208,36 @@ int al_MuestraElemento_desde_hasta(ArrayList *this,char *Titulo,int (*pFunc)(voi
         }
     }//if(this!=NULL && Titulo!=NULL)
     return retorno;
+}
+
+int funcionQueFiltra(void* item)
+{
+    int retorno=0;
+    EAlumno *tmp_1;
+    tmp_1=(EAlumno * ) item;
+    if(tmp_1->Edad > 30 ) //&& (strcpy(tmp_1->profecion,"programador")) )
+    {
+        retorno=1;
+    }
+    return retorno ;
+
+}
+
+ArrayList* al_filter(ArrayList* listIn , int (*functionFilter)(void*))
+{
+    ArrayList *ListaTemp=NULL;
+    ListaTemp= al_newArrayList();
+    if(listIn!=NULL && functionFilter!=NULL && ListaTemp!=NULL)
+    {
+        for(int i=0;i<listIn->len(listIn);i++)
+        {
+                if( functionFilter(listIn->get(listIn,i) )==1  )
+                {
+                    ListaTemp->add(  listIn->get(listIn,i) );
+                }
+        }
+        return ListaTemp;
+    }
 }
 
 ArrayList* clonaOrdenado(ArrayList *this,int (*pFunc)(void* ,void*),int orden)
