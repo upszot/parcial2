@@ -14,7 +14,7 @@ typedef struct{
     int Edad;
     int Legajo;
     char Sexo;
-    char Profecion[30];
+    int  (*get_Edad) () ;
 }EAlumno;
 
 int charToint(char* charInt);

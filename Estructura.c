@@ -215,12 +215,19 @@ int funcionQueFiltra(void* item)
     int retorno=0;
     EAlumno *tmp_1;
     tmp_1=(EAlumno * ) item;
-    if(tmp_1->Edad > 30 ) //&& (strcpy(tmp_1->profecion,"programador")) )
+    if(tmp_1->get_Edad() > 30 ) //&& (strcpy(tmp_1->profecion,"programador")) )
     {
         retorno=1;
     }
     return retorno ;
 
+}
+
+int get_Edad(void * record)
+{
+    EAlumno *tmp_1;
+    tmp_1=(EAlumno * ) record;
+    return tmp_1->Edad;
 }
 
 ArrayList* al_filter(ArrayList* listIn , int (*functionFilter)(void*))
