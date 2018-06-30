@@ -9,7 +9,7 @@
 
 #define NOMBRE_ARCHIVO "alumnos.csv"
 
-#define TAMLista 10
+
 #define PAGINADO 10
 
 
