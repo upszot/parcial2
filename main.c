@@ -10,7 +10,7 @@
 #define NOMBRE_ARCHIVO "alumnos.csv"
 
 #define TAMLista 10
-#define PAGINADO 5
+#define PAGINADO 10
 
 
 /*
@@ -45,7 +45,7 @@ int main()
         {
             menu(   "\n 1. Parse del archivo CVS"
                     "\n 2. Lista Ordenados por Edad"
-                    "\n 3. Lista"
+                    "\n 3. Lista Original"
                     "\n 4. LISTAR filtrado"
                     //"\n 5. INFORMAR:"
                 );

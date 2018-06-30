@@ -5,10 +5,6 @@
 #include "Estructura.h"
 #include "genericas.h"
 
-//#define MASACARA_ARCHIVO "%[^,],%[^,],%[^,],%[^\n]\n"
-
-
-
 
 int parserEstructura(FILE* pFile, ArrayList* this)
 {
@@ -22,10 +18,9 @@ int parserEstructura(FILE* pFile, ArrayList* this)
     EAlumno* record;
 
     char Nombre[30];
-    char Edad[3];
-    char Legajo[5];
-    char Sexo[1];
-
+    char Edad[10];
+    char Legajo[10];
+    char Sexo[2];
 
     if(pFile != NULL)
     {
@@ -64,7 +59,8 @@ int parserEstructura(FILE* pFile, ArrayList* this)
                         break;
                     }
 
-                    guardoDato = Alumno_setSexo(record,(char) Sexo );
+                    //guardoDato = Alumno_setSexo(record,(char) Sexo );
+                    guardoDato = Alumno_setSexo(record,(char *) Sexo );
                     if(guardoDato !=0)
                     {
                         break;
@@ -113,9 +109,9 @@ int Alumno_setLegajo(EAlumno* this, int dato)
     return 0;
 }
 
-int Alumno_setSexo(EAlumno* this, char dato)
+int Alumno_setSexo(EAlumno* this,  char *dato)
 {
-    this->Sexo = dato;
+    strcpy(this->Sexo,dato);
     return 0;
 }
 
@@ -140,10 +136,10 @@ int Muestra1Record(EAlumno * record)
     if(record !=NULL)
     {
         retorno=0;
-        printf("Nombre: %s ",record->Nombre);
-        printf("Edad: %d ",record->Edad);
-        printf("Legajo: %d ",record->Legajo);
-        printf("Sexo: %c \n",record->Sexo);
+        printf("Nombre: %s    \t\t",record->Nombre);
+        printf("Edad: %d \t",record->Edad);
+        printf("Legajo: %d \t",record->Legajo);
+        printf("Sexo: %s \n",record->Sexo);
     }
     return retorno;
 }
@@ -155,7 +151,7 @@ int compara_elementos_Estructura(void* pElementA,void* pElementB)
     EAlumno *tmp_2;
     tmp_1=(EAlumno * ) pElementA;
     tmp_2=(EAlumno * ) pElementB;
-    //return strcmp(tmp_1->DNI,tmp_2->DNI);
+
     if(tmp_1->Edad > tmp_2->Edad)
     {
         retorno=1;
@@ -215,19 +211,19 @@ int funcionQueFiltra(void* item)
     int retorno=0;
     EAlumno *tmp_1;
     tmp_1=(EAlumno * ) item;
-    if(tmp_1->get_Edad() > 30 ) //&& (strcpy(tmp_1->profecion,"programador")) )
+
+    if(get_Edad(tmp_1) > 30 )
     {
         retorno=1;
     }
     return retorno ;
-
 }
 
-int get_Edad(void * record)
+int get_Edad(EAlumno * record)
 {
-    EAlumno *tmp_1;
-    tmp_1=(EAlumno * ) record;
-    return tmp_1->Edad;
+    int retorno;
+    retorno =record->Edad;
+    return retorno;
 }
 
 int get_Legajo(void * record)
@@ -257,13 +253,14 @@ ArrayList* al_filter(ArrayList* listIn , int (*functionFilter)(void*))
 {
     ArrayList *ListaTemp=NULL;
     ListaTemp= al_newArrayList();
+
     if(listIn!=NULL && functionFilter!=NULL && ListaTemp!=NULL)
     {
         for(int i=0;i<listIn->len(listIn);i++)
         {
                 if( functionFilter(listIn->get(listIn,i) )==1  )
                 {
-                    ListaTemp->add(  listIn->get(listIn,i) );
+                    ListaTemp->add(ListaTemp,listIn->get(listIn,i) );
                 }
         }
         return ListaTemp;

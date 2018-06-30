@@ -13,8 +13,8 @@ typedef struct{
     char Nombre[30];
     int Edad;
     int Legajo;
-    char Sexo;
-    int  (*get_Edad) () ;
+    char Sexo[1];
+    //int  (*get_Edad) () ;
 
 }EAlumno;
 
@@ -31,7 +31,8 @@ int cargarDesdeArchivo(const char* nombreArchivo, ArrayList* this);
 int parserEstructura(FILE* pFile, ArrayList* this);
 int Alumno_setEdad(EAlumno* this, int dato);
 int Alumno_setLegajo(EAlumno* this, int dato);
-int Alumno_setSexo(EAlumno* this, char dato);
+//int Alumno_setSexo(EAlumno* this, char dato);
+int Alumno_setSexo(EAlumno* this,  char *dato);
 int Alumno_setName(EAlumno* this, const char* name);
 
 ArrayList* al_filter(ArrayList* listIn , int (*functionFilter)(void*));
