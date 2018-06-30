@@ -140,10 +140,10 @@ int Muestra1Record(EAlumno * record)
     if(record !=NULL)
     {
         retorno=0;
-        printf("\n Nombre: %s ",record->Nombre);
+        printf("Nombre: %s ",record->Nombre);
         printf("Edad: %d ",record->Edad);
-        printf(" Legajo: %d ",record->Legajo);
-        printf(" Sexo: %c \n",record->Sexo);
+        printf("Legajo: %d ",record->Legajo);
+        printf("Sexo: %c \n",record->Sexo);
     }
     return retorno;
 }
